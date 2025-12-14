@@ -19,7 +19,7 @@ class Game {
         let randomNumber = random.random(wordsStorage.wordCount);
         let finalWord = wordsStorage.getWord(randomNumber);
     }
-
+    //jnj
     function void greeting() {
         do Output.printString("Welcome to the Guessing Game!");
         do Output.printString("Try to guess the word in ");
