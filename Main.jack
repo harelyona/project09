@@ -17,5 +17,5 @@ class Main {
     while (game.playAgain){
         do game.restart();
   }
-  return;
+  return
 }
