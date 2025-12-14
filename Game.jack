@@ -1,0 +1,29 @@
+class Game {
+    static int guessesLeft;
+    static int guessesMade;
+    static string finalWord;
+    static string curWord;
+    static int seed;
+
+    function Game new() {
+        let
+        let random = Random.new(seed);
+    }
+
+    function void start() {
+        do Game.getRandomNumber();
+    }
+
+    function void greeting() {
+        do Output.printString("Welcome to the Guessing Game!");
+        do Output.printString("You have " + guessesLeft + " guesses to find the word.");
+    }
+
+    method bool checkInput() {
+    }
+
+
+    method int getRandomNumber() {
+    }
+
+}

@@ -1,0 +1,8 @@
+Class WordStorage {
+    constructor() {
+    storage = Array.new(10000);
+    storage[0] = "apple";
+    storage[1] = "banana";
+    storage[2] = "cherry";
+    storage[3] = "date";
+}

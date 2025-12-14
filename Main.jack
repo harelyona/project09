@@ -13,7 +13,8 @@ class Main {
   function void main() {
     let game = Game.new();
     do game.init();
-    while (game.restart){
+    do game.start();
+    while (game.playAgain){
         do game.restart();
   }
   return;
