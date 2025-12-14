@@ -1,22 +1,43 @@
 class Game {
-    static int guessesLeft;
+    static int numberOfTries;
     static int guessesMade;
     static string finalWord;
     static string curWord;
     static int seed;
+    static Random random;
+    static WordStorage wordsStorage;
 
-    function Game new() {
-        let
-        let random = Random.new(seed);
+    function Game new(int numberOfTries) {
+        let numberOfTries = numberOfTries;
+        let guessesMade = 0;
+        let random = Random.new();
+
+
     }
 
     function void start() {
-        do Game.getRandomNumber();
+        let randomNumber = random.random(wordsStorage.wordCount);
+        let finalWord = wordsStorage.getWord(randomNumber);
     }
 
     function void greeting() {
         do Output.printString("Welcome to the Guessing Game!");
-        do Output.printString("You have " + guessesLeft + " guesses to find the word.");
+        do Output.printString("Try to guess the word in ");
+        do Output.printInt(numberOfTries);
+        do Output.printString(" tries.");
+        let seed = Keyboard.readInt("Enter a seed number: ");
+        do random.setSeed(seed);
+        do Screen.clearScreen();
+        return;
+    }
+
+    method void initializeScreen() {
+    // draw the initial screen
+        var wordLen;
+        let wordLen = finalWord.length();
+        do Screen.clearScreen();
+
+        return;
     }
 
     method bool checkInput() {

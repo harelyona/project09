@@ -1,8 +1,23 @@
 Class WordStorage {
-    constructor() {
-    storage = Array.new(10000);
-    storage[0] = "apple";
-    storage[1] = "banana";
-    storage[2] = "cherry";
-    storage[3] = "date";
-}
+    field Array words;
+    field int wordCount;
+    constructor WordStorage new() {
+        let wordCount = 200;
+        let words = Array.new(wordCount);
+        do initializeWords();
+        return this;
+    }
+
+    method void initializeWords() {
+        // words with 4 letters
+        let words[0] = "date";
+        let words[1] = "kiwi";
+        let words[2] = "pear";
+        let words[3] = "plum";
+        let words[4] = "figs";
+        let words[5] = "lime";
+        return;
+
+    function String getWord(int index) {
+        return words[index];
+    }
