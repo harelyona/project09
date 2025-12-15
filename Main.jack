@@ -11,11 +11,10 @@
   */
 class Main {
   function void main() {
-    let game = Game.new();
+    let game = Game.new(10);
     do game.init();
-    do game.start();
-    while (game.playAgain){
-        do game.restart();
+
+    do game.play();
+    
   }
-  return
 }

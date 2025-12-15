@@ -6,20 +6,29 @@ class Game {
     static int seed;
     static Random random;
     static WordStorage wordsStorage;
+    static boolean gameWon;
+    static char guessedChar;
 
-    function Game new(int numberOfTries) {
+    constructor Game new(int numberOfTries) {
         let numberOfTries = numberOfTries;
         let guessesMade = 0;
         let random = Random.new();
-
-
+        let wordsStorage = WordStorage.new();
+        let gameWon = false;
+        return this;
     }
-
+    
+    method void init() {
+        do this.greeting();
+        do this.start();
+        do this.initializeScreen();
+        return;
+    }
     function void start() {
         let randomNumber = random.random(wordsStorage.wordCount);
         let finalWord = wordsStorage.getWord(randomNumber);
     }
-    //jnj
+    
     function void greeting() {
         do Output.printString("Welcome to the Guessing Game!");
         do Output.printString("Try to guess the word in ");
@@ -33,10 +42,16 @@ class Game {
 
     method void initializeScreen() {
     // draw the initial screen
-        var wordLen;
+        var int wordLen;
+        var int i;
         let wordLen = finalWord.length();
         do Screen.clearScreen();
 
+        let curWord = String.new(wordLen);
+        let i = 0;
+        while (i < wordLen) {
+            do curWord.appendChar(95); //95 is the ascii of _
+            let i = i + 1;
         return;
     }
 
@@ -45,6 +60,97 @@ class Game {
 
 
     method int getRandomNumber() {
+    }
+
+    method void play() {
+        while ( (guessesMade < numberOfTries) & (~gameWon) ) { 
+            
+            do this.drawGame();
+
+            // do this.getInput(); 
+            // do this.processGuess();
+            do this.endGameScreen();
+        return;
+    }
+
+    method void drawGame() {
+        var int triesRemaining;
+        
+        do Screen.clearScreen();
+
+        do Output.printString("Current Word: ");
+        do Output.printString(curWord);
+        do Output.println();
+
+        let triesRemaining = numberOfTries - guessesMade;
+        do Output.printString("Tries Remaining: ");
+        do Output.printInt(triesRemaining);
+        do Output.println();
+        
+        return;
+    }
+
+    method void getInput() {
+        do Output.printString("Guess a letter: ");
+        
+        let guessedChar = Keyboard.readChar(); 
+        
+        do Output.println();
+        
+        return;
+    }
+
+    method void processGuess() {
+        var int i;
+        var int wordLength;
+        var boolean correctGuess;
+
+        let wordLength = finalWord.length();
+        let i = 0;
+        let correctGuess = false;
+
+        while (i < wordLength) {
+            if (finalWord.charAt(i) = guessedChar) {
+                // 2. עדכון curWord: האות נוחשה נכונה
+                do curWord.setCharAt(i, guessedChar); 
+                let correctGuess = true;
+            }
+            let i = i + 1;
+        }
+
+        if (~correctGuess) {
+            let guessesMade = guessesMade + 1;
+        }
+        let i = 0;
+        let gameWon = true;
+        while (i < wordLength) {
+            if (curWord.charAt(i) = 95) {
+                let gameWon = false;
+            }
+            let i = i + 1;
+        }
+        
+        return;
+    }
+
+    method void endGameScreen() {
+        do Screen.clearScreen();
+
+        if (gameWon) {
+            do Output.printString("CONGRATULATIONS! YOU WON!");
+            do Output.println();
+        }
+        else {
+            do Output.printString("GAME OVER. You ran out of tries.");
+            do Output.println();
+        }
+        
+        do Output.printString("The word was: ");
+        do Output.printString(finalWord);
+        do Output.println();
+        
+        //todo: add here ask for if wants to play newgame
+        return;
     }
 
 }
