@@ -17,16 +17,14 @@ class Game {
         let gameWon = false;
         return this;
     }
-    
-    method void init() {
-        do this.greeting();
-        do this.start();
-        do this.initializeScreen();
-        return;
-    }
-    function void start() {
-        let randomNumber = random.random(wordsStorage.wordCount);
+
+    function void startGame() {
+        var int randomNumber;
+        let randomNumber = random.random(wordsStorage.getWordCount());
         let finalWord = wordsStorage.getWord(randomNumber);
+        do Game.greeting();
+        do Game.initializeScreen();
+        return;
     }
     
     function void greeting() {
@@ -40,7 +38,7 @@ class Game {
         return;
     }
 
-    method void initializeScreen() {
+    function void initializeScreen() {
     // draw the initial screen
         var int wordLen;
         var int i;
@@ -52,25 +50,29 @@ class Game {
         while (i < wordLen) {
             do curWord.appendChar(95); //95 is the ascii of _
             let i = i + 1;
+        }
         return;
-    }
+        }
 
     method bool checkInput() {
+        return true;
     }
 
 
     method int getRandomNumber() {
+        return 1;
     }
 
     method void play() {
         while ( (guessesMade < numberOfTries) & (~gameWon) ) { 
             
-            do this.drawGame();
+            do drawGame();
 
             // do this.getInput(); 
             // do this.processGuess();
-            do this.endGameScreen();
+            do endGameScreen();
         return;
+        }
     }
 
     method void drawGame() {
@@ -152,5 +154,4 @@ class Game {
         //todo: add here ask for if wants to play newgame
         return;
     }
-
 }

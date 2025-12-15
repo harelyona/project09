@@ -1,6 +1,7 @@
-Class WordStorage {
+class WordStorage {
     field Array words;
     field int wordCount;
+
     constructor WordStorage new() {
         let wordCount = 200;
         let words = Array.new(wordCount);
@@ -211,7 +212,32 @@ Class WordStorage {
         let words[198] = "talk";
         let words[199] = "sing";   
         return;
+    }
 
-    function String getWord(int index) {
+    method String getWord(int index) {
         return words[index];
     }
+
+    method int getWordCount() {
+        return wordCount;
+    }
+
+    method void dispose() {
+        var int i;
+        var String currentWord;
+        
+        let i = 0;
+        while (i < wordCount) {
+            let currentWord = words[i];
+            if (~(currentWord = null)) {
+                do currentWord.dispose();
+            }
+    
+            let i = i + 1;
+        }
+        do words.dispose();
+        do Memory.deAlloc(this);
+        
+        return;
+    }
+}

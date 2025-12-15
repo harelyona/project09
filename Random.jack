@@ -1,12 +1,10 @@
 class Random {
     field int seed;
 
-    // Constructor: Sets an initial seed value
     constructor Random new() {
         return this;
     }
 
-    // Optional: If you want to overwrite the seed from user input
     method void setSeed(int seed) {
         let seed = seed;
         return;
