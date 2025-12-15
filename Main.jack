@@ -10,10 +10,14 @@
   * You can include as many classes and functions as you want.
   */
 class Main {
+
   function void main() {
+    var Random random;
+    var Game game;
     let game = Game.new(10);
-    do game.init();
-    do game.play();
-    
+    do game.startGame();
+    do game.dispose();
+    do Sys.halt();
+    return;
   }
 }
