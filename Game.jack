@@ -9,6 +9,7 @@ class Game {
     field boolean gameWon;
     field char guessedChar;
     field boolean playAgain;
+    field String guessedLetters;
 
     constructor Game new(int nTries) {
         let numberOfTries = nTries;
@@ -17,6 +18,8 @@ class Game {
         let wordsStorage = WordStorage.new();
         let gameWon = false;
         let playAgain = true;
+        let guessedLetters = String.new();
+
         return this;
     }
 
@@ -38,6 +41,12 @@ class Game {
         var int randomNumber;
         let guessesMade = 0;
         let gameWon = false;
+
+        if (~(guessedLetters = 0)) { 
+            do guessedLetters.dispose();
+        }
+        let guessedLetters = String.new();
+
         let randomNumber = random.random(wordsStorage.getWordCount());
         let finalWord = wordsStorage.getWord(randomNumber);
         do initializeScreen();
@@ -97,6 +106,11 @@ class Game {
         do Output.printString("Current Word: ");
         do Output.printString(curWord);
         do Output.println();
+
+        do Output.printString("Guessed Letters: ");
+        do Output.printString(guessedLetters);
+        do Output.println();
+
         let triesRemaining = numberOfTries - guessesMade;
         do Output.printString("Tries Remaining: ");
         do Output.printInt(triesRemaining);
@@ -105,58 +119,93 @@ class Game {
     }
 
     method void getInput() {
-        var String input;
-        var boolean validInput;
-        
-        let validInput = false;
-        while (~validInput) {
-            let input = Keyboard.readLine("Guess a letter: ");
-            if (checkInputValidity(input)) {
-                let guessedChar = input.charAt(0);
-                let validInput = true;
-            }
-            do input.dispose();
-        }
-        do Output.println();
-        return;
-    }
+        var String input;
+        var boolean validInput;
+        var char tempChar;
+
+        let validInput = false;
+        while (~validInput) {
+            let input = Keyboard.readLine("Guess a letter: ");
+            if (this.checkInputValidity(input)) {
+                let tempChar = input.charAt(0);
+                if ((tempChar > 64) & (tempChar < 91)) { 
+                  let tempChar = tempChar + 32;
+                }
+                let guessedChar = tempChar;
+
+                let validInput = true;
+            }
+            do input.dispose();
+        }
+        do Output.println();
+        return;
+    }
 
     method boolean checkInputValidity(String input) {
         var char c;
+        var char tempChar;
+        var int index;
+
         if (~(input.length() = 1)) {
             do Output.printString("Please enter a single character.");
             do Output.println();
             return false;
         }
+
         let c = input.charAt(0);
+        
         if (((c > 64) & (c < 91)) | ((c > 96) & (c < 123))) { // Check for letter
+            
+            let tempChar = c; 
+            
+            if ((tempChar > 64) & (tempChar < 91)) {
+                let tempChar = tempChar + 32;
+            }
+            
+            let index = guessedLetters.indexOf(tempChar);
+            
+            if (index > -1) {
+                do Output.printString("You already guessed the letter ");
+                do Output.printChar(tempChar);
+                do Output.printString(". Try another one.");
+                do Output.println();
+                return false;
+            }
+            
             return true;
         }
+        
         do Output.printString("Please enter a letter");
         do Output.println();
         return false;
     }
 
     method void processGuess() {
+        var boolean letterFound;
         var int i;
         var int wordLength;
-        var boolean correctGuess;
+
+        do guessedLetters.appendChar(guessedChar); 
+
+        let letterFound = false;
         let wordLength = finalWord.length();
         let i = 0;
-        let correctGuess = false;
 
         while (i < wordLength) {
             if (finalWord.charAt(i) = guessedChar) {
-                do curWord.setCharAt(i, guessedChar); 
-                let correctGuess = true;
+
+                do curWord.setCharAt(i, guessedChar);
+                let letterFound = true;
             }
             let i = i + 1;
         }
 
-        if (~correctGuess) {
+        if (~letterFound) {
             let guessesMade = guessesMade + 1;
         }
-        let gameWon = checkWin();
+
+        let gameWon = this.checkWin();
+
         return;
     }
 
@@ -205,6 +254,9 @@ class Game {
         do random.dispose();
         do wordsStorage.dispose();
         if (~(curWord = null)) { do curWord.dispose(); }
+
+        if (~(guessedLetters = 0)) { do guessedLetters.dispose(); }
+        
         do Memory.deAlloc(this);
         return;
     }
