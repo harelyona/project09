@@ -16,7 +16,7 @@ class Main {
     var Game game;
     let game = Game.new(10);
     do game.startGame();
-    do game.dispose();
+    // do game.dispose();
     do Sys.halt();
     return;
   }
