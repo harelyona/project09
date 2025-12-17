@@ -18,7 +18,7 @@ class Game {
         let wordsStorage = WordStorage.new();
         let gameWon = false;
         let playAgain = true;
-        let guessedLetters = String.new();
+        let guessedLetters = String.new(26);
 
         return this;
     }
@@ -45,7 +45,7 @@ class Game {
         if (~(guessedLetters = 0)) { 
             do guessedLetters.dispose();
         }
-        let guessedLetters = String.new();
+        let guessedLetters = String.new(26);
 
         let randomNumber = random.random(wordsStorage.getWordCount());
         let finalWord = wordsStorage.getWord(randomNumber);
@@ -118,29 +118,27 @@ class Game {
         return;
     }
 
-    method void getInput() {
-        var String input;
-        var boolean validInput;
-        var char tempChar;
-
-        let validInput = false;
-        while (~validInput) {
-            let input = Keyboard.readLine("Guess a letter: ");
-            if (this.checkInputValidity(input)) {
-                let tempChar = input.charAt(0);
-                if ((tempChar > 64) & (tempChar < 91)) { 
-                  let tempChar = tempChar + 32;
-                }
-                let guessedChar = tempChar;
-
-                let validInput = true;
-            }
-            do input.dispose();
-        }
-        do Output.println();
-        return;
-    }
-
+    method void getInput() { 
+        var String input;
+        var boolean validInput;
+        var char tempChar;
+        
+        let validInput = false;
+        while (~validInput) {
+            let input = Keyboard.readLine("Guess a letter: ");
+            if (checkInputValidity(input)) {
+                let tempChar = input.charAt(0);
+                if ((tempChar > 64) & (tempChar < 91)) { 
+                    let tempChar = tempChar + 32;
+                }
+                let guessedChar = tempChar;
+                let validInput = true;
+                }
+            do input.dispose();
+        }
+        do Output.println();
+        return;
+    }
     method boolean checkInputValidity(String input) {
         var char c;
         var char tempChar;
@@ -162,7 +160,7 @@ class Game {
                 let tempChar = tempChar + 32;
             }
             
-            let index = guessedLetters.indexOf(tempChar);
+            let index = guessedLetters.charAt(tempChar);
             
             if (index > -1) {
                 do Output.printString("You already guessed the letter ");
@@ -204,7 +202,7 @@ class Game {
             let guessesMade = guessesMade + 1;
         }
 
-        let gameWon = this.checkWin();
+        let gameWon = checkWin();
 
         return;
     }
