@@ -30,7 +30,7 @@ class Game {
             do resetGame();
             do play();
             let playAgain = endGameScreen();
-            do Sys.wait(2000);
+            do Sys.wait(1500);
         }
         do Output.printString("Thanks for playing! Goodbye.");
         do Output.println();
@@ -143,7 +143,7 @@ class Game {
         var char c;
         var char tempChar;
         var int index;
-
+        var boolean alreadyGuessed;
         if (~(input.length() = 1)) {
             do Output.printString("Please enter a single character.");
             do Output.println();
@@ -157,12 +157,11 @@ class Game {
             let tempChar = c; 
             
             if ((tempChar > 64) & (tempChar < 91)) {
-                let tempChar = tempChar + 32;
+                let tempChar = tempChar + 32; // Convert to lowercase
             }
             
-            let index = guessedLetters.charAt(tempChar);
-            
-            if (index > -1) {
+            let alreadyGuessed = isContainChar(guessedLetters, tempChar);
+            if (alreadyGuessed) {
                 do Output.printString("You already guessed the letter ");
                 do Output.printChar(tempChar);
                 do Output.printString(". Try another one.");
@@ -225,10 +224,17 @@ class Game {
     method boolean endGameScreen() {
     var String input; 
     var char response;
-    
-    do Output.printString("The word was: ");
-    do Output.printString(finalWord);
-    do Output.println();
+    if (gameWon) {
+        do Output.printString("Congratulations! You've guessed the word: ");
+        do Output.printString(finalWord);
+        do Output.println();
+    } else {
+        do Output.printString("Game Over! You've used all your tries.");
+        do Output.println();
+        do Output.printString("The word was: ");
+        do Output.printString(finalWord);
+        do Output.println();
+    }
     let input = Keyboard.readLine("Play again? (y/n): ");
     while (~playAgainInputValidity(input)) {
         do input.dispose();
@@ -270,5 +276,18 @@ class Game {
         return true;
         }
     return false;
+    }
+
+    method boolean isContainChar(String str, char c) {
+        var int i, len;
+        let len = str.length();
+        let i = 0;
+        while (i < len) {
+            if (str.charAt(i) = c) {
+                return true;
+            }
+            let i = i + 1;
+        }
+        return false;
     }
 }
