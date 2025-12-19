@@ -10,6 +10,7 @@ class Game {
     field char guessedChar;
     field boolean playAgain;
     field String guessedLetters;
+    field HangmanDrawer drawer;
 
     constructor Game new(int nTries) {
         let numberOfTries = nTries;
@@ -19,6 +20,7 @@ class Game {
         let gameWon = false;
         let playAgain = true;
         let guessedLetters = String.new(26);
+        let drawer = HangmanDrawer.new();
 
         return this;
     }
@@ -87,13 +89,14 @@ class Game {
             do curWord.appendChar(95); // '_'
             let i = i + 1;
         }
+        do drawer.reset();
         return;
     }
 
     method void play() {
         while ( (guessesMade < numberOfTries) & (~gameWon) ) { 
             do drawGame();
-            do getInput(); 
+            do getInput();
             do processGuess();
         }
         return;
@@ -115,6 +118,7 @@ class Game {
         do Output.printString("Tries Remaining: ");
         do Output.printInt(triesRemaining);
         do Output.println();
+        do drawer.draw(guessesMade);
         return;
     }
 
@@ -253,17 +257,6 @@ class Game {
     
     return false;
     }
-    
-    method void dispose() {
-        do random.dispose();
-        do wordsStorage.dispose();
-        if (~(curWord = null)) { do curWord.dispose(); }
-
-        if (~(guessedLetters = 0)) { do guessedLetters.dispose(); }
-        
-        do Memory.deAlloc(this);
-        return;
-    }
 
     method boolean playAgainInputValidity(String input) {
     var char c;
@@ -289,5 +282,17 @@ class Game {
             let i = i + 1;
         }
         return false;
+    }
+        
+    method void dispose() {
+        do random.dispose();
+        do drawer.dispose();
+        do wordsStorage.dispose();
+        if (~(curWord = null)) { do curWord.dispose(); }
+
+        if (~(guessedLetters = 0)) { do guessedLetters.dispose(); }
+        
+        do Memory.deAlloc(this);
+        return;
     }
 }

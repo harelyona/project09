@@ -1,0 +1,163 @@
+class HangmanDrawer {
+    field int maxTries;
+    field int currentTries;
+
+    constructor HangmanDrawer new() {
+        let currentTries = 0;
+        return this;
+    }
+
+    method void reset() {
+        let currentTries = 0;
+        do Screen.setColor(false);
+        do Screen.drawRectangle(200, 40, 400, 230); 
+        do drawHanger();
+        return;
+    }
+
+    method void drawHanger() {
+        do Screen.setColor(true);
+        // Base
+        do Screen.drawLine(200, 220, 300, 220);
+        // Pole
+        do Screen.drawLine(250, 220, 250, 50);
+        // Top bar
+        do Screen.drawLine(250, 50, 350, 50);
+        // Rope
+        do Screen.drawLine(350, 50, 350, 80);
+        // Diagonal support beam
+        do Screen.drawLine(250, 80, 280, 50);
+        return;
+    }
+
+    method void drawHead() {
+        do Screen.setColor(true);
+        // Head circle (Center 350, 100, Radius 20)
+        do Screen.drawCircle(350, 100, 20);
+        return;
+    }
+
+    method void drawBody() { // Added 'void' here
+        do Screen.setColor(true);
+        // Line from bottom of head (350, 120) to torso end (350, 170)
+        do Screen.drawLine(350, 120, 350, 170);
+        return;
+    }
+
+    method void drawLeftArm() {
+        do Screen.setColor(true);
+        // From shoulder (350, 130) to left
+        do Screen.drawLine(350, 130, 320, 150);
+        return;
+    }
+
+    method void drawRightArm() {
+        do Screen.setColor(true);
+        // From shoulder (350, 130) to right
+        do Screen.drawLine(350, 130, 380, 150);
+        return;
+    }
+
+    method void drawLeftLeg() {
+        do Screen.setColor(true);
+        // From torso bottom (350, 170) to left
+        do Screen.drawLine(350, 170, 320, 210);
+        return;
+    }
+
+    method void drawRightLeg() {
+        do Screen.setColor(true);
+        // From torso bottom (350, 170) to right
+        do Screen.drawLine(350, 170, 380, 210);
+        return;
+    }
+
+    method void drawLeftEye() {
+        // Draw white eye first to clear black face
+        do Screen.setColor(false);
+        do Screen.drawCircle(342, 95, 3);
+        // Draw pupil
+        do Screen.setColor(true);
+        do Screen.drawCircle(342, 95, 1);
+        return;
+    }
+
+    method void drawRightEye() {
+        // Draw white eye first to clear black face
+        do Screen.setColor(false);
+        do Screen.drawCircle(358, 95, 3);
+        // Draw pupil
+        do Screen.setColor(true);
+        do Screen.drawCircle(358, 95, 1);
+        return;
+    }
+
+    method void drawNose() {
+        // Simple dot for nose
+        do Screen.setColor(false);
+        do Screen.drawCircle(350, 105, 2);
+        return;
+    }
+
+    method void drawMouth() {
+        // Draw a straight line for the mouth
+        do Screen.setColor(false);
+        do Screen.drawLine(342, 112, 358, 112);
+        return;
+    }
+
+    method void drawPart() {  
+        if (currentTries = 0) { 
+            do drawHanger(); 
+            }
+        if (currentTries = 1) { 
+            do drawHead(); 
+            }
+        if (currentTries = 2) { 
+            do drawBody(); 
+            }
+        if (currentTries = 3) { 
+            do drawLeftArm(); 
+            }
+        if (currentTries = 4) { 
+            do drawRightArm(); 
+            }
+        if (currentTries = 5) { 
+            do drawLeftLeg();
+            }
+        if (currentTries = 6) { 
+            do drawRightLeg(); 
+            }
+        if (currentTries = 7) { 
+            do drawLeftEye();
+            }
+        if (currentTries = 8) { 
+            do drawRightEye(); 
+            }
+        if (currentTries = 9) { 
+            do drawNose(); 
+            }
+        if (currentTries = 10) { 
+            do drawMouth(); 
+            }
+        let currentTries = currentTries + 1;
+        return;
+    }
+    
+    method void draw(int tries) {
+        // Draw all parts of the current hangman
+        var int i;
+        let i = 0;
+        do drawHanger();
+        while (i < tries) {
+            do drawPart();
+            let i = i + 1;
+        }
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
