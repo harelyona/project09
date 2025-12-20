@@ -110,6 +110,7 @@ class HangmanDrawer {
         return;
     }
 
+    // Draw specific body part by index
     method void drawPart(int i) {  
         if (i = 0) { 
             do drawHanger(); 
@@ -147,6 +148,7 @@ class HangmanDrawer {
         return;
     }
     
+    // Draw hangman with given number of wrong tries
     method void draw(int tries) {
         var int i;
         let i = 0;
@@ -158,6 +160,7 @@ class HangmanDrawer {
         return;
     }
 
+    // Free memory
     method void dispose() {
         do Memory.deAlloc(this);
         return;

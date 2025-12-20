@@ -1,14 +1,17 @@
+// Main game logic for Hangman
 class Game {
     field int numberOfTries, guessesMade, seed;
-    field String finalWord, curWord;
+    field String finalWord, curWord, guessedLetters;
     field Random random;
     field WordStorage wordsStorage;
-    field boolean gameWon;
+    field boolean gameWon, playAgain;
     field char guessedChar;
-    field boolean playAgain;
-    field String guessedLetters;
     field HangmanDrawer drawer;
+    
+    // NEW: Track if clue has been used
+    field boolean clueUsed;
 
+    // Initialize game with max number of tries
     constructor Game new(int nTries) {
         let numberOfTries = nTries;
         let guessesMade = 0;
@@ -18,10 +21,13 @@ class Game {
         let playAgain = true;
         let guessedLetters = String.new(26);
         let drawer = HangmanDrawer.new();
+        
+        let clueUsed = false; // Initialize clue usage
 
         return this;
     }
 
+    // Main game loop
     method void startGame() {
         do greeting();
         do Screen.clearScreen();
@@ -36,10 +42,14 @@ class Game {
         return;
     }
 
+    // Reset game state for new round
     method void resetGame() {
         var int randomNumber;
         let guessesMade = 0;
         let gameWon = false;
+        
+        // NEW: Reset clue for the new round
+        let clueUsed = false;
 
         if (~(guessedLetters = 0)) { 
             do guessedLetters.dispose();
@@ -52,12 +62,15 @@ class Game {
         return;
     }
     
+    // Display welcome message and get seed
     method void greeting() {
         do Output.printString("Welcome to the Guessing Game!");
         do Output.println();
         do Output.printString("Try to guess the word in ");
         do Output.printInt(numberOfTries);
         do Output.printString(" tries.");
+        do Output.println();
+        do Output.printString("Type 'clue' to reveal one letter (once per game)."); 
         do Output.println();
         let seed = Keyboard.readInt("Enter a seed number: ");
         do random.dispose();
@@ -67,9 +80,9 @@ class Game {
         return;
     }
 
+    // Setup screen with blank word
     method void initializeScreen() {
-        var int wordLen;
-        var int i;
+        var int wordLen, i;
         let wordLen = finalWord.length();
         
         do Screen.clearScreen();
@@ -89,6 +102,7 @@ class Game {
         return;
     }
 
+    // Main gameplay loop
     method void play() {
         while ( (guessesMade < numberOfTries) & (~gameWon) ) { 
             do drawGame();
@@ -98,6 +112,7 @@ class Game {
         return;
     }
 
+    // Draw current game state
     method void drawGame() {
         var int triesRemaining;
         do Screen.clearScreen();
@@ -114,36 +129,88 @@ class Game {
         do Output.printString("Tries Remaining: ");
         do Output.printInt(triesRemaining);
         do Output.println();
+        if (clueUsed) {
+             do Output.printString("Clue: USED");
+        } else {
+             do Output.printString("Clue: AVAILABLE (type 'clue')");
+        }
+        do Output.println();
+
         do drawer.draw(guessesMade);
         return;
     }
 
     method void getInput() { 
+        // Get and validate letter input from user
         var String input;
         var boolean validInput;
         var char tempChar;
+        var char c0, c1, c2, c3;
         
         let validInput = false;
         while (~validInput) {
             let input = Keyboard.readLine("Guess a letter: ");
-            if (checkInputValidity(input)) {
-                let tempChar = input.charAt(0);
-                if ((tempChar > 64) & (tempChar < 91)) { 
-                    let tempChar = tempChar + 32;
+            if (input.length() = 4) {
+                let c0 = input.charAt(0);
+                let c1 = input.charAt(1);
+                let c2 = input.charAt(2);
+                let c3 = input.charAt(3);
+
+                // Check "clue" (99, 108, 117, 101) OR "CLUE" (67, 76, 85, 69)
+                if ( ((c0 = 99) | (c0 = 67)) & ((c1 = 108) | (c1 = 76)) & ((c2 = 117) | (c2 = 85)) & ((c3 = 101) | (c3 = 69)) ) { 
+                     if (clueUsed) {
+                         do Output.printString("You have already used your clue!");
+                         do Output.println();
+                     } else {
+                         do giveClue();
+                         let validInput = true;
+                     }
+                } else {
+                    do Output.printString("Invalid input.");
+                    do Output.println();
                 }
-                let guessedChar = tempChar;
-                let validInput = true;
+            } else {
+                if (checkInputValidity(input)) {
+                    let tempChar = input.charAt(0);
+                    if ((tempChar > 64) & (tempChar < 91)) { 
+                        let tempChar = tempChar + 32;
+                    }
+                    let guessedChar = tempChar;
+                    let validInput = true;
                 }
+            }
             do input.dispose();
         }
         do Output.println();
         return;
     }
+
+    method void giveClue() {
+        var int i, len;
+        var char c;
+        let len = finalWord.length();
+        let i = 0;
+        while (i < len) {
+            if (curWord.charAt(i) = 95) { // 95 is '_'
+                let guessedChar = finalWord.charAt(i);
+                let clueUsed = true;
+                do Output.printString("Clue used! The letter is: ");
+                do Output.printChar(guessedChar);
+                do Output.println();
+                return;
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+
     method boolean checkInputValidity(String input) {
+        // Validate that input is a single letter and not already guessed
         var char c;
         var char tempChar;
         var int index;
         var boolean alreadyGuessed;
+        
         if (~(input.length() = 1)) {
             do Output.printString("Please enter a single character.");
             do Output.println();
@@ -177,6 +244,7 @@ class Game {
         return false;
     }
 
+    // Process the guessed letter
     method void processGuess() {
         var boolean letterFound;
         var int i;
@@ -206,6 +274,7 @@ class Game {
         return;
     }
 
+    // Check if player has won
     method boolean checkWin() {
         var int i, wordLength;
         var char currentChar;
@@ -221,6 +290,7 @@ class Game {
         return true;
     }
 
+    // Display end game message and ask to play again
     method boolean endGameScreen() {
     var String input; 
     var char response;
@@ -258,6 +328,7 @@ class Game {
     return false;
     }
 
+    // Validate play again input
     method boolean playAgainInputValidity(String input) {
     var char c;
 
@@ -271,6 +342,7 @@ class Game {
     return false;
     }
 
+    // Check if string contains character
     method boolean isContainChar(String str, char c) {
         var int i, len;
         let len = str.length();
@@ -284,6 +356,7 @@ class Game {
         return false;
     }
         
+    //Free memory
     method void dispose() {
         do random.dispose();
         do drawer.dispose();

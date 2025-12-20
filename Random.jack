@@ -14,8 +14,7 @@ class Random {
     }
     // Generate random number between 0 and max-1
     method int random(int max) {
-        var int mask;
-        var int ret;
+        var int mask, ret;
         let seed = (seed * 237) + 51;
         let ret = seed - (max * (seed / max));
         if (ret < 0) {
