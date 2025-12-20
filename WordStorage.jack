@@ -1,16 +1,18 @@
+// Manages word collection for Hangman game
 class WordStorage {
     field Array words;
     field int wordCount;
 
+    // Initialize storage with 250 words
     constructor WordStorage new() {
-        let wordCount = 200;
+        let wordCount = 250;
         let words = Array.new(wordCount);
         do initializeWords();
         return this;
     }
 
+    //Load all words into Array
     method void initializeWords() {
-        // words with 4 letters
         let words[0] = "date";
         let words[1] = "kiwi";
         let words[2] = "pear";
@@ -57,38 +59,38 @@ class WordStorage {
         let words[43] = "bank";
         let words[44] = "pool";
         let words[45] = "lake";
-        let words[46] = "river";
-        let words[47] = "ocean";
+        let words[46] = "five";
+        let words[47] = "kill";
         let words[48] = "wave";
         let words[49] = "ship";
         let words[50] = "bell";
         let words[51] = "ring";
         let words[52] = "horn";
-        let words[53] = "flute";
+        let words[53] = "cute";
         let words[54] = "drum";
         let words[55] = "tune";
         let words[56] = "note";
         let words[57] = "band";
         let words[58] = "clap";
         let words[59] = "kiss";
-        let words[60] = "hug";
-        let words[61] = "cry";
-        let words[62] = "laugh";
-        let words[63] = "smile";
+        let words[60] = "hugs";
+        let words[61] = "rave";
+        let words[62] = "lake";
+        let words[63] = "mile";
         let words[64] = "gasp";
         let words[65] = "sigh";
         let words[66] = "yawn";
-        let words[67] = "sleep";
-        let words[68] = "dream";
-        let words[69] = "awake";
-        let words[70] = "chair";
-        let words[71] = "table";
-        let words[72] = "spoon";
+        let words[67] = "leep";
+        let words[68] = "beam";
+        let words[69] = "wake";
+        let words[70] = "hair";
+        let words[71] = "able";
+        let words[72] = "spin";
         let words[73] = "fork";
-        let words[74] = "knife";
+        let words[74] = "nine";
         let words[75] = "bowl";
-        let words[76] = "plate";
-        let words[77] = "glass";
+        let words[76] = "bite";
+        let words[77] = "glad";
         let words[78] = "cook";
         let words[79] = "bake";
         let words[80] = "meal";
@@ -96,29 +98,29 @@ class WordStorage {
         let words[82] = "meat";
         let words[83] = "rice";
         let words[84] = "salt";
-        let words[85] = "pepper";
-        let words[86] = "sugar";
-        let words[87] = "juice";
+        let words[85] = "peck";
+        let words[86] = "sort";
+        let words[87] = "jump";
         let words[88] = "soda";
         let words[89] = "cold";
         let words[90] = "warm";
         let words[91] = "heat";
-        let words[92] = "chill";
+        let words[92] = "phil";
         let words[93] = "cool";
         let words[94] = "soft";
         let words[95] = "hard";
         let words[96] = "long";
-        let words[97] = "short";
+        let words[97] = "sort";
         let words[98] = "wide";
         let words[99] = "thin";
         let words[100] = "rich";
         let words[101] = "poor";
         let words[102] = "true";
-        let words[103] = "false";
+        let words[103] = "fall";
         let words[104] = "nice";
         let words[105] = "mean";
         let words[106] = "loud";
-        let words[107] = "quiet";
+        let words[107] = "quit";
         let words[108] = "fast";
         let words[109] = "slow";
         let words[110] = "easy";
@@ -127,10 +129,10 @@ class WordStorage {
         let words[113] = "hero";
         let words[114] = "vill";
         let words[115] = "king";
-        let words[116] = "queen";
-        let words[117] = "prince";
+        let words[116] = "past";
+        let words[117] = "pine";
         let words[118] = "girl";
-        let words[119] = "boy";
+        let words[119] = "boys";
         let words[120] = "baby";
         let words[121] = "grow";
         let words[122] = "born";
@@ -144,11 +146,11 @@ class WordStorage {
         let words[130] = "knee";
         let words[131] = "back";
         let words[132] = "nose";
-        let words[133] = "ear";
+        let words[133] = "ears";
         let words[134] = "lips";
         let words[135] = "hair";
         let words[136] = "skin";
-        let words[137] = "blood";
+        let words[137] = "body";
         let words[138] = "bone";
         let words[139] = "ache";
         let words[140] = "sick";
@@ -159,9 +161,9 @@ class WordStorage {
         let words[145] = "play";
         let words[146] = "team";
         let words[147] = "ball";
-        let words[148] = "sport";
+        let words[148] = "port";
         let words[149] = "race";
-        let words[150] = "win";
+        let words[150] = "wins";
         let words[151] = "lose";
         let words[152] = "goal";
         let words[153] = "home";
@@ -173,15 +175,15 @@ class WordStorage {
         let words[159] = "call";
         let words[160] = "send";
         let words[161] = "read";
-        let words[162] = "write";
+        let words[162] = "wite";
         let words[163] = "draw";
-        let words[164] = "learn";
-        let words[165] = "teach";
+        let words[164] = "earn";
+        let words[165] = "pear";
         let words[166] = "test";
         let words[167] = "exam";
         let words[168] = "pass";
         let words[169] = "fail";
-        let words[170] = "grade";
+        let words[170] = "rade";
         let words[171] = "math";
         let words[172] = "code";
         let words[173] = "wire";
@@ -201,27 +203,80 @@ class WordStorage {
         let words[187] = "open";
         let words[188] = "shut";
         let words[189] = "lock";
-        let words[190] = "key";
+        let words[190] = "keys";
         let words[191] = "find";
         let words[192] = "seek";
         let words[193] = "look";
         let words[194] = "hear";
-        let words[195] = "smell";
-        let words[196] = "taste";
+        let words[195] = "sell";
+        let words[196] = "tast";
         let words[197] = "feel";
         let words[198] = "talk";
-        let words[199] = "sing";   
+        let words[199] = "sing";
+        let words[200] = "make";
+        let words[201] = "take";
+        let words[202] = "give";
+        let words[203] = "keep";
+        let words[204] = "hold";
+        let words[205] = "show";
+        let words[206] = "hide";
+        let words[207] = "turn";
+        let words[208] = "spin";
+        let words[209] = "roll";
+        let words[210] = "flip";
+        let words[211] = "fold";
+        let words[212] = "tear";
+        let words[213] = "chop";
+        let words[214] = "wash";
+        let words[215] = "wipe";
+        let words[216] = "dust";
+        let words[217] = "hang";
+        let words[218] = "hook";
+        let words[219] = "nail";
+        let words[220] = "bolt";
+        let words[221] = "glue";
+        let words[222] = "tape";
+        let words[223] = "wrap";
+        let words[224] = "pack";
+        let words[225] = "sack";
+        let words[226] = "case";
+        let words[227] = "cage";
+        let words[228] = "trap";
+        let words[229] = "bait";
+        let words[230] = "lure";
+        let words[231] = "cast";
+        let words[232] = "reel";
+        let words[233] = "line";
+        let words[234] = "pole";
+        let words[235] = "mesh";
+        let words[236] = "yarn";
+        let words[237] = "knit";
+        let words[238] = "lace";
+        let words[239] = "silk";
+        let words[240] = "wool";
+        let words[241] = "felt";
+        let words[242] = "hemp";
+        let words[243] = "jute";
+        let words[244] = "rope";
+        let words[245] = "cord";
+        let words[246] = "wire";
+        let words[247] = "coil";
+        let words[248] = "loop";
+        let words[249] = "knot";   
         return;
     }
 
+    // Get word at given index (0-249)
     method String getWord(int index) {
         return words[index];
     }
 
+    // Return total word count
     method int getWordCount() {
         return wordCount;
     }
 
+    // Free memory
     method void dispose() {
         var int i;
         var String currentWord;

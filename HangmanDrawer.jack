@@ -1,12 +1,15 @@
+// Manages drawing of hangman parts on screen
 class HangmanDrawer {
     field int maxTries;
     field int currentTries;
 
+    //Create new drawer
     constructor HangmanDrawer new() {
         let currentTries = 0;
         return this;
     }
 
+    // Clear screen and redraw hanger
     method void reset() {
         let currentTries = 0;
         do Screen.setColor(false);
@@ -15,6 +18,7 @@ class HangmanDrawer {
         return;
     }
 
+    // Draw the hanger structure
     method void drawHanger() {
         do Screen.setColor(true);
         // Base
@@ -106,51 +110,49 @@ class HangmanDrawer {
         return;
     }
 
-    method void drawPart() {  
-        if (currentTries = 0) { 
+    method void drawPart(int i) {  
+        if (i = 0) { 
             do drawHanger(); 
             }
-        if (currentTries = 1) { 
+        if (i = 1) { 
             do drawHead(); 
             }
-        if (currentTries = 2) { 
+        if (i = 2) { 
             do drawBody(); 
             }
-        if (currentTries = 3) { 
+        if (i = 3) { 
             do drawLeftArm(); 
             }
-        if (currentTries = 4) { 
+        if (i = 4) { 
             do drawRightArm(); 
             }
-        if (currentTries = 5) { 
+        if (i = 5) { 
             do drawLeftLeg();
             }
-        if (currentTries = 6) { 
+        if (i = 6) { 
             do drawRightLeg(); 
             }
-        if (currentTries = 7) { 
+        if (i = 7) { 
             do drawLeftEye();
             }
-        if (currentTries = 8) { 
+        if (i = 8) { 
             do drawRightEye(); 
             }
-        if (currentTries = 9) { 
+        if (i = 9) { 
             do drawNose(); 
             }
-        if (currentTries = 10) { 
+        if (i = 10) { 
             do drawMouth(); 
             }
-        let currentTries = currentTries + 1;
         return;
     }
     
     method void draw(int tries) {
-        // Draw all parts of the current hangman
         var int i;
         let i = 0;
         do drawHanger();
         while (i < tries) {
-            do drawPart();
+            do drawPart(i);
             let i = i + 1;
         }
         return;

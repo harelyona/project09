@@ -1,42 +1,30 @@
+// Simple random number generator
 class Random {
     field int seed;
 
+    // Create new random generator
     constructor Random new() {
         return this;
     }
 
+    // Set the seed value for randomization
     method void setSeed(int seed) {
         let seed = seed;
         return;
     }
-
-    // Method to generate a random number between 0 and max-1
+    // Generate random number between 0 and max-1
     method int random(int max) {
         var int mask;
         var int ret;
-
-        // 1. Change the seed using a Linear Congruential Generator formula:
-        // seed = (seed * A + C)
-        // We use small coefficients here to fit in 16-bit signed integers
-        // without breaking too immediately (though overflow is expected/desired).
         let seed = (seed * 237) + 51;
-
-        // 2. Handle the "Modulo" operator manually.
-        // Jack does not have %, so we calculate: ret = seed % max
-        // Formula: a % n = a - (n * (a / n))
-
         let ret = seed - (max * (seed / max));
-
-        // 3. Ensure the result is positive.
-        // In Jack, the modulo of a negative number can be negative.
         if (ret < 0) {
             let ret = ret + max;
         }
 
         return ret;
     }
-
-    // Standard dispose method for memory management
+    // Free memory
     method void dispose() {
         do Memory.deAlloc(this);
         return;
