@@ -5,7 +5,7 @@ class WordStorage {
 
     // Initialize storage with 250 words
     constructor WordStorage new() {
-        let wordCount = 250;
+        let wordCount = 260;
         let words = Array.new(wordCount);
         do initializeWords();
         return this;
@@ -262,7 +262,20 @@ class WordStorage {
         let words[246] = "wire";
         let words[247] = "coil";
         let words[248] = "loop";
-        let words[249] = "knot";   
+        let words[249] = "knot";
+        let words[250] = "save";
+        let words[251] = "cant";
+        let words[252] = "root";
+        let words[253] = "does";
+        let words[254] = "rode";
+        let words[255] = "mode";
+        let words[256] = "ride";
+        let words[257] = "code";
+        let words[258] = "wood";
+        let words[259] = "cake";
+        
+        
+           
         return;
     }
 

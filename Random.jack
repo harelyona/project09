@@ -1,4 +1,3 @@
-// Simple random number generator
 class Random {
     field int seed;
 

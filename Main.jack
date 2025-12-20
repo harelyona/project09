@@ -12,12 +12,11 @@
 
 // Main entry point for Hangman game
 class Main {
-
-  // Start the game with 10 max tries
+  
   function void main() {
     var Random random;
     var Game game;
-    let game = Game.new(10);
+    let game = Game.new();
     do game.startGame();
     do game.dispose();
     do Sys.halt();
